@@ -42,10 +42,9 @@ def handle_merge_vertex(v):
     
     if(edge in T):
         T.remove(edge)
+        print(f'T= {T}')
 
-    t_reverse = sorted(T, key=lambda e: (e.order_no))
-    ej = next((e for e in t_reverse if (e.start.point[0] < v.point[0]) and (e.end.point[0] < v.point[0])), None)
-    print(f'ej={ej}')
+    ej = find_ej(v)
 
     if ej and ej.helper and ej.helper.type == 'merge':
         D.append(Edge(v, ej.helper))
@@ -62,6 +61,7 @@ def handle_regular_vertex(v):
         
         if(edge in T):
             T.remove(edge)
+            print(f'T= {T}')
 
         edge = next(e for e in edges if e.order_no == v.order_no)
         T.append(edge)
@@ -75,11 +75,29 @@ def handle_regular_vertex(v):
         pomocnik(ej, v)
 
 def handle_split_vertex(v):
-    pass
+    ej = find_ej(v)
+    if ej and ej.helper and ej.helper:
+        D.append(Edge(v, ej.helper))
+
+    pomocnik(ej, v)
+
+    edge = next(e for e in edges if e.order_no == v.order_no)
+
+    T.append(edge)
+    pomocnik(edge, v)
+
+def handle_end_vertex(v):
+    edge = next(e for e in edges if e.order_no == v.order_no-1)
+    if edge and edge.helper and edge.helper.type == C_MERGE:
+        D.append(Edge(v,edge))
+
+    if(edge in T):
+        T.remove(edge)
+        print(f'T= {T}')
 
 
 
-for i in range(0,10): # range(len(quene)):
+for i in range(0,15): # range(len(quene)):
     print('')
     v = quene[i]
     print(f'{i+1}. Badamy v{v.order_no} = {v.name} - {v.type}')
@@ -93,6 +111,8 @@ for i in range(0,10): # range(len(quene)):
         handle_regular_vertex(v)
     elif v.type == C_SPLIT:
         handle_split_vertex(v)
+    elif v.type == C_END:
+        handle_end_vertex(v)
     
     T.sort(key=lambda e: (e.order_no), reverse=True)
 
