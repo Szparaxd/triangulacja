@@ -11,7 +11,8 @@ jobs:
     name: run pull
     runs-on: ubuntu-latest
     
-    steps:    
+    steps:   
+      - uses: actions/checkout@v3
       - name: deploy files
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
