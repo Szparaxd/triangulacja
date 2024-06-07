@@ -21,7 +21,7 @@ def main(dane):
     def find_ej(v):
         t_reverse = sorted(T, key=lambda e: (e.order_no))
         ej = next((e for e in t_reverse if (e.start.point[0] < v.point[0]) and (e.end.point[0] < v.point[0])), None)
-        print(f'ej={ej}')
+        messages.append(f'ej={ej}')
         return ej
 
     def pomocnik(e, v):
@@ -29,7 +29,7 @@ def main(dane):
             return
         
         e.helper = v
-        print(f'pomocnik({e}) = v{v.order_no}')
+        messages.append(f'pomocnik({e}) = v{v.order_no}')
 
     def handle_start_vertex(v):
         edge = next(e for e in edges if e.order_no == v.order_no)
@@ -44,7 +44,7 @@ def main(dane):
         
         if(edge in T):
             T.remove(edge)
-            print(f'T= {T}')
+            messages.append(f'T= {T}')
 
         ej = find_ej(v)
 
@@ -54,7 +54,7 @@ def main(dane):
         pomocnik(ej, v)
     # todo sprawdzic
     def handle_regular_vertex(v):
-        print(f'is_interior_right = {v.is_interior_right(x_mid)}')
+        messages.append(f'is_interior_right = {v.is_interior_right(x_mid)}')
         if v.is_interior_right(x_mid):
             edge = next(e for e in edges if e.order_no == v.order_no-1)
             if edge and edge.helper and edge.helper.type == C_MERGE:
@@ -62,7 +62,7 @@ def main(dane):
             
             if(edge in T):
                 T.remove(edge)
-                print(f'T= {T}')
+                messages.append(f'T= {T}')
 
             edge = next(e for e in edges if e.order_no == v.order_no)
             T.append(edge)
@@ -94,12 +94,12 @@ def main(dane):
 
         if(edge in T):
             T.remove(edge)
-            print(f'T= {T}')
+            messages.append(f'T= {T}')
 
-    for i in range(0,15): # range(len(quene)):
-        print('')
+    for i in range(len(quene)):
+        messages.append('')
         v = quene[i]
-        print(f'{i+1}. Badamy v{v.order_no} = {v.name} - {v.type}')
+        messages.append(f'{i+1}. Badamy v{v.order_no} = {v.name} - {v.type}')
         
         
         if v.type == C_START:
@@ -115,8 +115,10 @@ def main(dane):
         
         T.sort(key=lambda e: (e.order_no), reverse=True)
 
-        print(f'T= {T}')
-        print(f'D= {D}')
+        messages.append(f'T= {T}')
+        messages.append(f'D= {D}')
+
+    return messages
 
 def converHttpToStandard(daneHttp):
     linie = daneHttp.strip().split('\n')
@@ -135,7 +137,7 @@ def httpTringulate(daneHttp):
     print(dane)
     return main(dane)
 
-    # print('###############')
+    # messages.append('###############')
     # main(cw_)
 
 if __name__ == '__main__':

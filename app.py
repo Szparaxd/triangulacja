@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from main2 import *
 
 app = Flask(__name__)
@@ -12,9 +12,9 @@ def triangulacja():
     if request.method == 'POST':
         dane = request.form['dane']
 
-        httpTringulate(dane)
+        messages = httpTringulate(dane)
 
-        return f"Dane odebrane: {dane}"
+        return jsonify(messages)
     else:
         return redirect(url_for('index'))
 
