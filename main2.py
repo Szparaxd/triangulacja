@@ -2,7 +2,7 @@ from vertex import *
 from edge import *
 from dane import cw_, me_
 
-vertexs = build_vertex_list(cw_)    
+vertexs = build_vertex_list(me_)    
 first_vertext = find_right_vertex(vertexs)
 set_order_no_for_vertex(first_vertext)
 set_vertex_type(vertexs)
@@ -87,7 +87,7 @@ def handle_split_vertex(v):
     pomocnik(edge, v)
 
 def handle_end_vertex(v):
-    edge = next(e for e in edges if e.order_no == v.order_no-1)
+    edge = next((e for e in edges if e.order_no == v.order_no-1), None)
     if edge and edge.helper and edge.helper.type == C_MERGE:
         D.append(Edge(v,edge))
 
