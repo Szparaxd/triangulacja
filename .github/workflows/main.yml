@@ -19,8 +19,8 @@ jobs:
           server: ${{ secrets.SSH_HOST }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: 10236
-          local_path: './*'
-          remote_path: '/root/triangulacja/'
+          local_path: '*'
+          remote_path: '/root/triangulacja'
           delete_remote_files: true
           
       - name: run docker
