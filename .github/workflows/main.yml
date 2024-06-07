@@ -32,7 +32,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: 10236
           script: |
-            docker stop kredytasapi
-            docker rm kredytasapi
-            docker build -t kredytasapi triangulacja/
-            docker run --rm -d --name triangulacja -p 7777:5000 kredytasapi
+            docker stop triangulacja
+            docker rm triangulacja
+            docker build -t triangulacja triangulacja/
+            docker run --rm -d --name triangulacja -p 7777:5000 triangulacja
